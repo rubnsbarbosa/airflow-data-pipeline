@@ -8,7 +8,10 @@ from airflow.operators.empty import EmptyOperator
 sys.path.insert(1, os.path.dirname(__file__))
 
 from utils.config_utils import DAGArgs
-from utils.aws_utils import extract_data_from_s3
+from utils.aws_utils import (
+    extract_data_from_s3,
+    load_data_into_redshift
+)
 
 
 @dag(dag_id=DAGArgs.NAME, schedule="@daily", catchup=False, default_args=DAGArgs.DEFAULT)
@@ -19,6 +22,7 @@ def data_pipeline_dag():
     def run_data_pipeline():
         try:
             data = extract_data_from_s3()
+            load_data_into_redshift(data)
 
         except Exception as e:
             raise AirflowException(f"Airflow raised the exception: {e}")

@@ -1,10 +1,15 @@
+import os
 import sys
 import boto3
 import logging
 import pandas as pd
+import sqlalchemy as sa
+from sqlalchemy import create_engine
 from io import StringIO
 
 from config_utils import Config
+
+sys.path.insert(1, os.path.dirname(__file__))
 
 logging.basicConfig(stream=sys.stdout,
                     level=logging.INFO,
@@ -33,8 +38,16 @@ def extract_data_from_s3():
 
 
 def load_data_into_redshift(csv_content):
+    config = Config()
     logger.info(f"load the .csv content into a pandas dataframe")
-    df = pd.read_csv(StringIO(csv_content))
+    df = pd.read_csv(StringIO(csv_content), header=None)
 
-    # todo: load dataframe to redshift
+    engine = create_engine(
+        f'postgresql://{config.redshift_username}:{config.redshift_password}@'
+        f'{config.redshift_hostname}:{config.redshift_port}/{config.redshift_database}')
 
+    conn = engine.connect()
+
+    df.to_sql(conn.redshift_table, engine, index=False, if_exists="replace")
+
+    conn.close()
