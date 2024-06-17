@@ -1,6 +1,6 @@
 #!/bin/bash
-# this file represents a step of data ingestion into a object storage
-# in which the dag pipeline will extract data from this s3 bucket
+# this file represents a step of data ingestion into a s3 bucket
+
 bucket_name="your-bucket-name"
 
 echo "making bucket..."
