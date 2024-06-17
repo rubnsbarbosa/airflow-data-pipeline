@@ -1,5 +1,8 @@
 import os
+import sys
 from airflow.utils import dates
+
+sys.path.insert(1, os.path.dirname(__file__))
 
 
 class DAGArgs:
@@ -16,3 +19,10 @@ class Config:
     s3_bucket_name = os.getenv("S3_BUCKET_NAME")
     s3_file_key = os.getenv("S3_FILE_KEY")
     localstack_endpoint = os.getenv("LOCALSTACK_ENDPOINT")
+    # redshift
+    redshift_username = os.getenv("REDSHIFT_USERNAME")
+    redshift_password = os.getenv("REDSHIFT_PASSWORD")
+    redshift_hostname = os.getenv("REDSHIFT_HOSTNAME")
+    redshift_port = os.getenv("REDSHIFT_PORT")
+    redshift_database = os.getenv("REDSHIFT_DATABASE")
+    redshift_table = os.getenv("REDSHIFT_TABLE")
