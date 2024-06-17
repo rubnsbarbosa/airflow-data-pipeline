@@ -24,6 +24,7 @@ share/python-wheels/
 *.egg-info/
 .installed.cfg
 *.egg
+.idea
 MANIFEST
 
 # PyInstaller
@@ -43,6 +44,7 @@ htmlcov/
 .coverage
 .coverage.*
 .cache
+.config
 nosetests.xml
 coverage.xml
 *.cover
